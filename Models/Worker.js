@@ -118,15 +118,23 @@ export default class Worker {
       });
 
       if(useBackOff){
-        //Wait for the backoff which should be lower than 30000 ( 30 seconds ) for iOS devices
         await new Promise((resolve) => {
-          setTimeout(() => {resolve()}, jobBackOff*1000)
+          setTimeout(() => {
+            resolve();
+          }, jobBackOff*1000);
         });
       }
 
       await Promise.race([timeoutPromise, Worker.workers[jobName](jobId, jobPayload)]);
 
     } else {
+      if(useBackOff){
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, jobBackOff*1000);
+        });
+      }
       await Worker.workers[jobName](jobId, jobPayload);
     }
 
