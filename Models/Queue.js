@@ -91,11 +91,14 @@ export class Queue {
     if (options.timeout < 0 || options.attempts < 0) {
       throw new Error('Invalid job option.');
     }
+    const generatedId =
+            Date.now().toString(36) +
+            Math.random().toString(36).substr(2, 9);
 
     this.realm.write(() => {
 
       this.realm.create('Job', {
-        id: uuid.v4(),
+        id:  generatedId,
         name,
         payload: JSON.stringify(payload),
         data: JSON.stringify({
