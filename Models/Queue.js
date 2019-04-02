@@ -7,7 +7,6 @@
  */
 
 import Database from '../config/Database';
-import uuid from 'react-native-uuid';
 import Worker from './Worker';
 import promiseReflect from 'promise-reflect';
 
